@@ -1,20 +1,24 @@
+"Homework 1.1 tests"
+
 import unittest
-from unittest import mock
 
 from predict import SomeModel, predict_message_mood
 
+
 class TestPredict(unittest.TestCase):
+    "Class with tests"
+
     def setUp(self):
-        print("SETUP")
+        self.model = SomeModel()
 
-    def tearDown(self):
-        print("TEAR_DOWN")
+    def test_edge_cases(self):
+        "Tests edge case"
 
-    def test_init(self):
-        print("INIT")
+        self.assertEqual("неуд", predict_message_mood("", self.model))
 
     def test_prediction(self):
-        model = SomeModel()
+        "Tests  predict_message_mood() function"
 
-        self.assertEqual("отл", predict_message_mood("Чапаев и пустота", model))
-        self.assertEqual("неуд", predict_message_mood("Вулкан", model))
+        self.assertEqual("неуд", predict_message_mood("Чиуауа", self.model))
+        self.assertEqual("норм", predict_message_mood("Чапаев и пустота", self.model))
+        self.assertEqual("отл", predict_message_mood("Встреск", self.model))
