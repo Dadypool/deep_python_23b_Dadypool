@@ -1,3 +1,5 @@
-# deep_python_23b_dudypool
+# Repository with homeworks of DeepPython Course
 
-## Repository with homeworks of DeepPython Course
+
+## Contents: 
+### 1. [Introduction, testing](https://github.com/Dadypool/deep_python_23b_Dadypool/tree/main/01)
