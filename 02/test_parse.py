@@ -69,18 +69,15 @@ class TestParse(unittest.TestCase):
 
         with self.assertRaises(TypeError):
             parse_json(self.json_str, self.mock_callback_func)
-            self.mock_callback_func.assert_not_called()
 
     def test_fields_keywords_with_diff_types(self):
         "Tests parse function with fields and keywrods as lists with different types"
 
         with self.assertRaises(TypeError):
             parse_json(self.json_str, self.mock_callback_func, ["key1", 3], ["word1"])
-            self.mock_callback_func.assert_not_called()
 
         with self.assertRaises(TypeError):
             parse_json(self.json_str, self.mock_callback_func, ["key1"], ["Word1", 2])
-            self.mock_callback_func.assert_not_called()
 
     def test_keyfields_case(self):
         "Tests fields must be case dependent"
