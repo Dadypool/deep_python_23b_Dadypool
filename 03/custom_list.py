@@ -1,5 +1,7 @@
 "Homework 3 with custom list class"
 
+from collections.abc import Iterable
+from typing import SupportsIndex
 from math import isclose
 from numbers import Number
 
@@ -73,7 +75,23 @@ class CustomList(list):
         return self.__gt__(other) or self.__eq__(other)
 
     def __str__(self):
-        return super().__str__() + f"  Sum: {sum(self)}"
+        return super().__repr__() + f"  Sum: {sum(self)}"
 
     def __repr__(self):
         return f"CustomList({super().__repr__()})"
+
+    def append(self, __object: Number) -> None:
+        if not isinstance(__object, Number):
+            raise TypeError("CustomList must contain only numbers")
+        return super().append(__object)
+
+    def extend(self, __iterable: Iterable) -> None:
+        for i in __iterable:
+            if not isinstance(i, Number):
+                raise TypeError("CustomList must contain only numbers")
+        return super().extend(__iterable)
+
+    def insert(self, __index: SupportsIndex, __object: Number) -> None:
+        if not isinstance(__object, Number):
+            raise TypeError("CustomList must contain only numbers")
+        return super().insert(__index, __object)
