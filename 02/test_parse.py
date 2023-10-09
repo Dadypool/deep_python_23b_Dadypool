@@ -25,7 +25,7 @@ class TestParse(unittest.TestCase):
         with patch("json.loads", return_value={"key1": "word2"}) as mock_load:
             parse_json("mock.json", self.mock_callback_func, ["key1"], ["word2"])
             mock_load.assert_called_once_with("mock.json")
-        self.mock_callback_func.assert_called_once_with("word2")
+        self.mock_callback_func.assert_called_once_with("key1", "word2")
 
     def test_callback_once(self):
         "Tests callback function to be called one time"
@@ -34,7 +34,7 @@ class TestParse(unittest.TestCase):
             None,
             parse_json(self.json_str, self.mock_callback_func, ["key1"], ["word2"]),
         )
-        self.mock_callback_func.assert_called_once_with("word2")
+        self.mock_callback_func.assert_called_once_with("key1", "word2")
 
     def test_callback_not_called(self):
         "Tests callback function to be not called"
@@ -42,18 +42,24 @@ class TestParse(unittest.TestCase):
         parse_json(self.json_str, self.mock_callback_func, ["key2"], ["word5"])
         self.mock_callback_func.assert_not_called()
 
+    def test_callback_not_called_several_fields(self):
+        "Tests callback function to be not called"
+
+        parse_json(self.json_str, self.mock_callback_func, ["key1", "key2"], ["word5"])
+        self.mock_callback_func.assert_not_called()
+
     def test_callback_one_keyword_in_several_fields(self):
         "Tests callback function to be called several times with one keyword in diff fields"
 
         parse_json(self.json_str, self.mock_callback_func, ["key1", "key2"], ["word2"])
-        self.mock_callback_func.assert_called_with("word2")
+        self.assertEqual([call("key1", "word2"), call("key2", "word2")], self.mock_callback_func.mock_calls)
         self.assertEqual(2, self.mock_callback_func.call_count)
 
     def test_one_keyword_in_one_field_several_times(self):
         "Tests callback function to be called several times with one keyword in one field"
 
         parse_json(self.json_str, self.mock_callback_func, ["key1"], ["word3"])
-        self.mock_callback_func.assert_called_with("word3")
+        self.mock_callback_func.assert_called_with("key1", "word3")
         self.assertEqual(2, self.mock_callback_func.call_count)
 
     def test_callback_several_keywords_in_one_field(self):
@@ -61,8 +67,17 @@ class TestParse(unittest.TestCase):
 
         parse_json(self.json_str, self.mock_callback_func, ["key1"], ["Word1", "word2"])
         self.assertEqual(
-            [call("Word1"), call("word2")], self.mock_callback_func.mock_calls
+            [call("key1", "Word1"), call("key1", "word2")], self.mock_callback_func.mock_calls
         )
+    
+    def test_callback_several_keywords_and_fields(self):
+        "Tests callback function to be called several times with different keywords in different field"
+
+        parse_json(self.json_str, self.mock_callback_func, ["key1", "key2"], ["Word1", "word2"])
+        self.assertEqual(
+            [call("key1", "Word1"), call("key1", "word2"), call("key2", "word2")], self.mock_callback_func.mock_calls
+        )
+        self.assertEqual(3, self.mock_callback_func.call_count)
 
     def test_no_fields_no_keywords(self):
         "Tests parse function without fields and keywrods arguments"
@@ -78,17 +93,29 @@ class TestParse(unittest.TestCase):
 
         with self.assertRaises(TypeError):
             parse_json(self.json_str, self.mock_callback_func, ["key1"], ["Word1", 2])
+        
+    def test_keyword_callback_not_callable(self):
+        "Tests keyword callback function is not callable"
+
+        with self.assertRaises(TypeError):
+            parse_json(self.json_str, None, ["key1"], ["word1"])
+
+        with self.assertRaises(TypeError):
+            parse_json(self.json_str, "keyword_callback", ["key1"], ["word1"])
 
     def test_keyfields_case(self):
         "Tests fields must be case dependent"
 
-        parse_json(self.json_str, self.mock_callback_func, ["Key1"], ["word2"])
+        parse_json(self.json_str, self.mock_callback_func, ["KEY1"], ["word2"])
         self.mock_callback_func.assert_not_called()
+
+        parse_json(self.json_str, self.mock_callback_func, ["key1"], ["word2"])
+        self.mock_callback_func.assert_called_once_with("key1", "word2")
 
     def test_keywords_case(self):
         "Tests keywords must be case independent"
 
-        parse_json(self.json_str, self.mock_callback_func, ["key1"], ["word1", "WORD2"])
+        parse_json(self.json_str, self.mock_callback_func, ["key1"], ["word2", "WORD2"])
         self.assertEqual(
-            [call("word1"), call("WORD2")], self.mock_callback_func.mock_calls
+            [call("key1", "word2"), call("key1", "WORD2")], self.mock_callback_func.mock_calls
         )
