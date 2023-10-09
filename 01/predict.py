@@ -8,13 +8,9 @@ class SomeModel:  # pylint: disable=R0903
     def predict(self, message: str) -> float:
         "Predicts messages's mood"
 
-        if not message:
-            return 0
-        vowels = 0
-        for char in message.lower():
-            if char in "ауеыоэяию":
-                vowels += 1
-        return 1 - round(vowels / len(message), 2)
+        return round(
+            len([i for i in message if i.lower() in "ауеыоэяию"]) / len(message), 2
+        )
 
 
 def predict_message_mood(
