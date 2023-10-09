@@ -20,9 +20,8 @@ def mean(k: int = 10):
             end = time()
 
             last_calls.append(end - start)
-            n_calls = k if len(last_calls) == k else len(last_calls)
             print(
-                f"Mean time of last {n_calls} calls: {round(sum(last_calls) / k, 2)}s"
+                f"Mean time of last {len(last_calls)} calls: {round(sum(last_calls) / len(last_calls), 2)}s"
             )
             return res
 
