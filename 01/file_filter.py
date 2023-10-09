@@ -20,4 +20,4 @@ def filter_file(file_obj, keywords):
             for word in line_list:
                 if word.lower() in keywords:
                     yield line
-                    continue
+                    break
