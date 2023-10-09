@@ -7,7 +7,7 @@ import json
 
 def parse_json(
     json_str: str,
-    keyword_callback: Callable[[str], any],
+    keyword_callback: Callable[[str, str], any],
     required_fields: list[str] = None,
     keywords: list[str] = None,
 ) -> None:
@@ -27,11 +27,14 @@ def parse_json(
         if not isinstance(keyword, str):
             raise TypeError("keywords must be list containing strings")
 
-    json_doc = json.loads(json_str)
+    if not callable(keyword_callback):
+        raise TypeError("keyword_callback must be callable")
 
-    for keyword in keywords:
-        for field in required_fields:
-            if field in json_doc:
+    json_doc = json.loads(json_str)
+    
+    for field in required_fields:
+        if field in json_doc:
+            for keyword in keywords:
                 for field_keyword in json_doc[field].split():
                     if keyword.casefold() in field_keyword.casefold():
-                        keyword_callback(keyword)
+                        keyword_callback(field, keyword)
