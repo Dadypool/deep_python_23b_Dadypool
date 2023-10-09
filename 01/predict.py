@@ -8,10 +8,6 @@ class SomeModel:  # pylint: disable=R0903
     def predict(self, message: str) -> float:
         "Predicts messages's mood"
 
-        return round(
-            len([i for i in message if i.lower() in "ауеыоэяию"]) / len(message), 2
-        )
-
 
 def predict_message_mood(
     message: str,
@@ -24,6 +20,6 @@ def predict_message_mood(
     res = model.predict(message)
     if res > good_thresholds:
         return "отл"
-    if bad_thresholds <= res <= good_thresholds:
+    if res >= bad_thresholds:
         return "норм"
     return "неуд"

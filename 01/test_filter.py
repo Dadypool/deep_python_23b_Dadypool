@@ -60,10 +60,10 @@ class TestFileFilter(unittest.TestCase):
     def test_nothing_found(self):
         "Test any keyword doesnt match"
 
-        answer = []
-        for line in filter_file(self.emmul_file, ["Some", "thing"]):
-            answer.append(line)
-        self.assertEqual(answer, [])
+        fil = filter_file(self.emmul_file, ["Some", "thing"])
+
+        with self.assertRaises(StopIteration):
+            next(fil)
 
     def test_keywords_case(self):
         "Test keywords are case independent"
