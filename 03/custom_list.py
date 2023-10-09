@@ -1,21 +1,16 @@
 "Homework 3 with custom list class"
 
 from collections.abc import Iterable
-from typing import SupportsIndex
 from math import isclose
-from numbers import Number
 
 
 class CustomList(list):
     "class with custom list behavior"
 
-    def __init__(self, lst: list = None) -> None:
-        if lst is None:
-            lst = []
-        for i in lst:
-            if not isinstance(i, Number):
-                raise TypeError("CustomList must contain only numbers")
-        super().__init__(lst)
+    def __init__(self, iterable: Iterable = None) -> None:
+        if iterable is None:
+            iterable = []
+        super().__init__(iterable)
 
     def __add__(self, other: list) -> "CustomList":
         if not isinstance(other, list):
@@ -79,19 +74,3 @@ class CustomList(list):
 
     def __repr__(self):
         return f"CustomList({super().__repr__()})"
-
-    def append(self, __object: Number) -> None:
-        if not isinstance(__object, Number):
-            raise TypeError("CustomList must contain only numbers")
-        return super().append(__object)
-
-    def extend(self, __iterable: Iterable) -> None:
-        for i in __iterable:
-            if not isinstance(i, Number):
-                raise TypeError("CustomList must contain only numbers")
-        return super().extend(__iterable)
-
-    def insert(self, __index: SupportsIndex, __object: Number) -> None:
-        if not isinstance(__object, Number):
-            raise TypeError("CustomList must contain only numbers")
-        return super().insert(__index, __object)
