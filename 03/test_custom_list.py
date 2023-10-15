@@ -60,8 +60,10 @@ class TestDecor(TestCase):
         for i, j in zip(res_list, exp_list):
             self.assertEqual(i, j)
         # Check cust_list1 and cust_list2 didnt changed
+        self.assertEqual(len(cust_list1), 4)
         for i, j in zip(cust_list1, CustomList([5, 1, 3, 7])):
             self.assertEqual(i, j)
+        self.assertEqual(len(cust_list2), 4)
         for i, j in zip(cust_list2, CustomList([1, 1, 1, 1])):
             self.assertEqual(i, j)
 
@@ -81,8 +83,10 @@ class TestDecor(TestCase):
         for i, j in zip(res_list2, exp_list):
             self.assertEqual(i, j)
         # Check cust_list1 and cust_list2 didnt changed
+        self.assertEqual(len(cust_list1), 4)
         for i, j in zip(cust_list1, CustomList([5, 1, 3, 7])):
             self.assertEqual(i, j)
+            self.assertEqual(len(cust_list2), 2)
         for i, j in zip(cust_list2, CustomList([1, 1])):
             self.assertEqual(i, j)
 
@@ -97,11 +101,11 @@ class TestDecor(TestCase):
         self.assertEqual(len(res_list), len(exp_list))
         for i, j in zip(res_list, exp_list):
             self.assertEqual(i, j)
-        # Check cust_list1 and cust_list2 didnt changed
+        # Check cust_list1 and lst didnt changed
+        self.assertEqual(len(cust_list1), 4)
         for i, j in zip(cust_list1, CustomList([5, 1, 3, 7])):
             self.assertEqual(i, j)
-        for i, j in zip(lst, [1, 1, 1, 1]):
-            self.assertEqual(i, j)
+        self.assertEqual(lst, [1, 1, 1, 1])
 
     def test_add_with_list_diff_size(self):
         "Test add CustomList and list with diff sizes"
@@ -118,11 +122,11 @@ class TestDecor(TestCase):
         self.assertEqual(len(res_list2), len(exp_list))
         for i, j in zip(res_list2, exp_list):
             self.assertEqual(i, j)
-        # Check cust_list1 and cust_list2 didnt changed
+        # Check cust_list1 and lst didnt changed
+        self.assertEqual(len(cust_list1), 4)
         for i, j in zip(cust_list1, CustomList([5, 1, 3, 7])):
             self.assertEqual(i, j)
-        for i, j in zip(lst, [1, 1]):
-            self.assertEqual(i, j)
+        self.assertEqual(lst, [1, 1])
 
     def test_sub_same_size(self):
         "Test sub same size CustomLists"
@@ -141,8 +145,10 @@ class TestDecor(TestCase):
         for i, j in zip(res_list2, exp_list2):
             self.assertEqual(i, j)
         # Check cust_list1 and cust_list2 didnt changed
+        self.assertEqual(len(cust_list1), 4)
         for i, j in zip(cust_list1, CustomList([5, 1, 3, 7])):
             self.assertEqual(i, j)
+        self.assertEqual(len(cust_list2), 4)
         for i, j in zip(cust_list2, CustomList([1, 1, 1, 1])):
             self.assertEqual(i, j)
 
@@ -163,8 +169,10 @@ class TestDecor(TestCase):
         for i, j in zip(res_list2, exp_list2):
             self.assertEqual(i, j)
         # Check cust_list1 and cust_list2 didnt changed
+        self.assertEqual(len(cust_list1), 4)
         for i, j in zip(cust_list1, CustomList([5, 1, 3, 7])):
             self.assertEqual(i, j)
+        self.assertEqual(len(cust_list2), 2)
         for i, j in zip(cust_list2, CustomList([1, 1])):
             self.assertEqual(i, j)
 
@@ -184,11 +192,11 @@ class TestDecor(TestCase):
         self.assertEqual(len(res_list2), len(exp_list2))
         for i, j in zip(res_list2, exp_list2):
             self.assertEqual(i, j)
-        # Check cust_list1 and cust_list2 didnt changed
+        # Check cust_list1 and lst didnt changed
+        self.assertEqual(len(cust_list1), 4)
         for i, j in zip(cust_list1, CustomList([5, 1, 3, 7])):
             self.assertEqual(i, j)
-        for i, j in zip(lst, [1, 1, 1, 1]):
-            self.assertEqual(i, j)
+        self.assertEqual(lst, [1, 1, 1, 1])
 
     def test_sub_with_list_diff_size(self):
         "Test sub CustomList and list with diff sizes"
@@ -206,11 +214,11 @@ class TestDecor(TestCase):
         self.assertEqual(len(res_list2), len(exp_list2))
         for i, j in zip(res_list2, exp_list2):
             self.assertEqual(i, j)
-        # Check cust_list1 and cust_list2 didnt changed
+        # Check cust_list1 and lst didnt changed
+        self.assertEqual(len(cust_list1), 4)
         for i, j in zip(cust_list1, CustomList([5, 1, 3, 7])):
             self.assertEqual(i, j)
-        for i, j in zip(lst, [1, 1]):
-            self.assertEqual(i, j)
+        self.assertEqual(lst, [1, 1])
 
     def test_compare(self):
         "Test comparison"
