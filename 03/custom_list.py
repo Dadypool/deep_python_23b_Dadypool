@@ -7,11 +7,6 @@ from math import isclose
 class CustomList(list):
     "class with custom list behavior"
 
-    def __init__(self, iterable: Iterable = None) -> None:
-        if iterable is None:
-            iterable = []
-        super().__init__(iterable)
-
     def __add__(self, other: list) -> "CustomList":
         if not isinstance(other, list):
             raise TypeError(
