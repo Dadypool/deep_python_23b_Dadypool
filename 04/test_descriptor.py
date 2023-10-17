@@ -24,6 +24,7 @@ class TestDescriptor(TestCase):
             assert civ.__dict__["gold"]
         with self.assertRaises(ValueError):
             civ.gold = "gold"
+        self.assertEqual(50, civ.gold)
         self.assertIsNone(Civilization.gold)
 
     def test_posint_descr(self):
@@ -46,6 +47,7 @@ class TestDescriptor(TestCase):
             assert civ.__dict__["cities"]
         with self.assertRaises(ValueError):
             civ.cities = "city"
+        self.assertEqual(10, civ.cities)
         self.assertIsNone(Civilization.cities)
 
     def test_string_descr(self):
@@ -62,6 +64,7 @@ class TestDescriptor(TestCase):
             civ = Civilization(7)
         with self.assertRaises(AttributeError):
             civ.name = "Macedonia"
+        self.assertEqual("Greece", civ.name)
         self.assertIsNone(Civilization.name)
 
     def test_several_instances(self):
@@ -91,5 +94,29 @@ class TestDescriptor(TestCase):
 
         with self.assertRaises(AttributeError):
             england.name = "GreatBritain"
+        self.assertEqual("England", england.name)
         with self.assertRaises(AttributeError):
             france.name = "French Empire"
+        self.assertEqual("France", france.name)
+    
+    def test_value_didnt_change_if_invalid(self):
+        "Tests that atrributes value didn't change after set with invalid value"
+
+        civ = Civilization("Carthage")
+        civ.build_city()
+        civ.earn(100)
+        
+        self.assertEqual("Carthage", civ.name)
+        with self.assertRaises(AttributeError):
+            civ.name = "Carthago delenda est"
+        self.assertEqual("Carthage", civ.name)
+
+        self.assertEqual(2, civ.cities)
+        with self.assertRaises(ValueError):
+            civ.cities = "many"
+        self.assertEqual(2, civ.cities)
+
+        self.assertEqual(100, civ.gold)
+        with self.assertRaises(ValueError):
+            civ.gold = "gold"
+        self.assertEqual(100, civ.gold)
