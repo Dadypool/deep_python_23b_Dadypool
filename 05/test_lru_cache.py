@@ -79,6 +79,44 @@ class TestLRUCache(TestCase):
         self.assertEqual(2, len(cache.hash))
         self.assertEqual(2, self.count_nodes(cache.head, cache.tail))
 
+    def test_with_capacity_1(self):
+        "Tests lru cache with capacity 1"
+
+        cache = LRUCache(1)
+
+        cache["k1"] = "val1"
+        cache["k2"] = "val2"
+        cache["k3"] = "val3"
+
+        self.assertIsNone(cache["k1"])
+        self.assertIsNone(cache["k2"])
+        self.assertEqual(cache["k3"], "val3")
+
+        self.assertEqual(1, len(cache.hash))
+        self.assertEqual(1, self.count_nodes(cache.head, cache.tail))
+        self.assertEqual(cache.head.next.key, "k3")
+
+    def test_update_existing_key(self):
+        "Tests work if update existing key. Non-updated keys come last"
+
+        cache = LRUCache(2)
+
+        cache["k1"] = "val1"
+        cache["k2"] = "val2"
+
+        cache["k1"] = "val1_1"
+
+        cache["k3"] = "val3"
+
+        self.assertIsNone(cache["k2"])
+        self.assertEqual(cache["k1"], "val1_1")
+        self.assertEqual(cache["k3"], "val3")
+
+        self.assertEqual(2, len(cache.hash))
+        self.assertEqual(2, self.count_nodes(cache.head, cache.tail))
+        self.assertEqual(cache.head.next.key, "k3")
+        self.assertEqual(cache.head.next.next.key, "k1")
+
     def test_update_one_item_several_times(self):
         "Tests work if udate one item several times"
 
@@ -89,6 +127,10 @@ class TestLRUCache(TestCase):
 
         cache["k1"] = "val1_1"
         cache["k1"] = "val1_2"
+
+        self.assertEqual(cache["k1"], "val1_2")
+        cache["k1"] = "val1_3"
+        self.assertEqual(cache["k1"], "val1_3")
 
         self.assertEqual(2, len(cache.hash))
         self.assertEqual(2, self.count_nodes(cache.head, cache.tail))
