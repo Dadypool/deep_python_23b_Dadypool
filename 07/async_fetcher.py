@@ -51,7 +51,6 @@ async def url_producer(queue, file_path):
 
     async with aiofiles.open(file_path, "r") as file:
         async for line in file:
-            print(12)
             await queue.put(line.strip())
 
 
