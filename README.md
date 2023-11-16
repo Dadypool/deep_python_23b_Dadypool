@@ -9,3 +9,4 @@
 ### 5. [LRU Cache](https://github.com/Dadypool/deep_python_23b_Dadypool/tree/main/05)
 ### 6. [Server](https://github.com/Dadypool/deep_python_23b_Dadypool/tree/main/06)
 ### 7. [Async Fetcher](https://github.com/Dadypool/deep_python_23b_Dadypool/tree/main/07)
+### 8. [Profiling](https://github.com/Dadypool/deep_python_23b_Dadypool/tree/main/08)
