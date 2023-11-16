@@ -1,4 +1,4 @@
-# Домашняя работа №7
+# Домашняя работа №8
 
 ### 1. Сравнение dict, weakref и slots в [compariosn.py](https://github.com/Dadypool/deep_python_23b_Dadypool/blob/main/08/comparison.py)
 ### 2. Результаты профилирования [profile.txt](https://github.com/Dadypool/deep_python_23b_Dadypool/blob/main/08/profile.py)
