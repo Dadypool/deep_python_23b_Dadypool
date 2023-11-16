@@ -1,7 +1,7 @@
 # Домашняя работа №8
 
 ### 1. Сравнение dict, weakref и slots в [compariosn.py](https://github.com/Dadypool/deep_python_23b_Dadypool/blob/main/08/comparison.py)
-### 2. Результаты профилирования [profile.txt](https://github.com/Dadypool/deep_python_23b_Dadypool/blob/main/08/profile.py)
+### 2. Провёл профилирование по [вызовам](https://github.com/Dadypool/deep_python_23b_Dadypool/tree/main/08#22-профилирование-по-вызовам) и [памяти](https://github.com/Dadypool/deep_python_23b_Dadypool/tree/main/08#21-профилирование-по-памяти)
 ### 3. Реализовал декоратор профилирования в [profile_deco.py](https://github.com/Dadypool/deep_python_23b_Dadypool/blob/main/08/profile.py)
 ### 4. Прогнал через flake8, pylint и black
 
@@ -46,5 +46,5 @@
 
 #### 2.2 Профилирование по вызовам:
 ![Профилирование по вызовам](https://github.com/Dadypool/deep_python_23b_Dadypool/blob/main/08/src/call_stats.png)
-Инициализация объектов каждого класса вызывалось 10**6 раз.
-Инициализация объектов, на которые ссылались объекты сравниваемых классов вызывалась 3*3 * 10**6 раз
+Инициализация объектов каждого класса вызывалось 10 ** 6 раз.
+Инициализация объектов, на которые ссылались объекты сравниваемых классов вызывалась 3*3 * 10 ** 6 раз
