@@ -6,23 +6,25 @@ import functools
 
 
 def profile_deco(func):
-    func._profile = cProfile.Profile()
+    "Profile decorator"
+
+    func.profile = cProfile.Profile()
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         try:
-            func._profile.enable()
+            func.profile.enable()
             result = func(*args, **kwargs)
         finally:
-            func._profile.disable()
+            func.profile.disable()
         return result
 
     @functools.wraps(func)
     def print_stat():
         print("=" * 50)
         print(f"Profile stats for {func.__module__}.{func.__name__}:")
-        stats = pstats.Stats(func._profile)
-        stats.sort_stats('cumulative').print_stats()
+        stats = pstats.Stats(func.profile)
+        stats.sort_stats("cumulative").print_stats()
         print("=" * 50)
 
     wrapper.print_stat = print_stat
@@ -31,11 +33,13 @@ def profile_deco(func):
 
 @profile_deco
 def add(a, b):
+    "Function add"
     return a + b
 
 
 @profile_deco
 def sub(a, b):
+    "Function sub"
     return a - b
 
 
