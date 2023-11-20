@@ -1,4 +1,5 @@
 "Homework 9. Logging lru_cache"
+
 import logging
 
 
@@ -133,7 +134,9 @@ if __name__ == "__main__":
 
     if args.stdout:
         stdout_handler = logging.StreamHandler()
-        stdout_formatter = logging.Formatter("%(filename)s:%(lineno)s - %(levelname)s - %(message)s")
+        stdout_formatter = logging.Formatter(
+            "%(filename)s:%(lineno)s - %(levelname)s - %(message)s"
+        )
         stdout_handler.setFormatter(stdout_formatter)
         logger.addHandler(stdout_handler)
     if args.filter:
