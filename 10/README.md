@@ -1,4 +1,4 @@
-# Домашняя работа №11
+# Домашняя работа №10
 
 ### 1. Реализовал модуль cjson с помощью C API - [cjson.c](https://github.com/Dadypool/deep_python_23b_Dadypool/blob/main/11/cjson.c)
 ### 2. Написал Makefile - [Makefile](https://github.com/Dadypool/deep_python_23b_Dadypool/blob/main/11/Makefile)
