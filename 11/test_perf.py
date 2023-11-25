@@ -9,7 +9,9 @@ import cjson
 
 
 def generate_json_str():
-    json_str = '{'
+    "Generates json string with 1000 keys and 1000 values"
+
+    json_str = "{"
 
     for i in range(1, 1001):
         if i % 2:
@@ -17,7 +19,7 @@ def generate_json_str():
         else:
             json_str += f'"key{i}": {i}, '
     json_str = json_str[:-2]
-    json_str += '}'
+    json_str += "}"
 
     return json_str
 

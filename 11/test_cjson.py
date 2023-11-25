@@ -10,6 +10,8 @@ import cjson
 
 class TestCjson(unittest.TestCase):
     def test_loads(self):
+        "Tests loads"
+
         json_str = '{"hello": "world", "num": 10, "key": "value"}'
 
         json_doc = json.loads(json_str)
@@ -20,6 +22,8 @@ class TestCjson(unittest.TestCase):
         self.assertEqual(json_doc, cjson_doc)
 
     def test_dumps(self):
+        "Tests dumps"
+
         json_str = '{"hello": "world", "num": 10, "key": "value"}'
 
         json_doc = json.loads(json_str)
