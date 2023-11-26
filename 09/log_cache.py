@@ -102,7 +102,9 @@ class LRUCache:
         node.next.prev = node.prev
 
 
-def logger_config():
+def logger_config(stdout, log_filter, debug):
+    "Configures logger"
+
     logger.setLevel(logging.INFO)
 
     file_handler = logging.FileHandler("cache.log", mode="w")
@@ -112,6 +114,18 @@ def logger_config():
 
     file_handler.setFormatter(file_formatter)
     logger.addHandler(file_handler)
+
+    if stdout:
+        stdout_handler = logging.StreamHandler()
+        stdout_formatter = logging.Formatter(
+            "%(filename)s:%(lineno)s - %(levelname)s - %(message)s"
+        )
+        stdout_handler.setFormatter(stdout_formatter)
+        logger.addHandler(stdout_handler)
+    if log_filter:
+        logger.addFilter(MyFilter())
+    if debug:
+        logger.setLevel(logging.DEBUG)
 
 
 class MyFilter(logging.Filter):
@@ -134,19 +148,8 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--debug", action="store_true", help="Disable debug logs")
     args = parser.parse_args()
 
-    logger_config()
-
-    if args.stdout:
-        stdout_handler = logging.StreamHandler()
-        stdout_formatter = logging.Formatter(
-            "%(filename)s:%(lineno)s - %(levelname)s - %(message)s"
-        )
-        stdout_handler.setFormatter(stdout_formatter)
-        logger.addHandler(stdout_handler)
-    if args.filter:
-        logger.addFilter(MyFilter())
-    if args.debug:
-        logger.setLevel(logging.DEBUG)
+    # Config logger
+    logger_config(args.stdout, args.filter, args.debug)
 
     # Lru_cache work
     cache = LRUCache(3)
