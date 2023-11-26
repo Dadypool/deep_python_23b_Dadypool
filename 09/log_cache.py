@@ -2,17 +2,7 @@
 
 import logging
 
-
 logger = logging.getLogger("__name__")
-logger.setLevel(logging.INFO)
-
-file_handler = logging.FileHandler("cache.log", mode="w")
-file_formatter = logging.Formatter(
-    "%(asctime)s - %(levelname)s - %(message)s", datefmt="%d-%b-%y %H:%M:%S"
-)
-
-file_handler.setFormatter(file_formatter)
-logger.addHandler(file_handler)
 
 
 class Node:
@@ -112,6 +102,18 @@ class LRUCache:
         node.next.prev = node.prev
 
 
+def logger_config():
+    logger.setLevel(logging.INFO)
+
+    file_handler = logging.FileHandler("cache.log", mode="w")
+    file_formatter = logging.Formatter(
+        "%(asctime)s - %(levelname)s - %(message)s", datefmt="%d-%b-%y %H:%M:%S"
+    )
+
+    file_handler.setFormatter(file_formatter)
+    logger.addHandler(file_handler)
+
+
 class MyFilter(logging.Filter):
     "Custom filter for logging"
 
@@ -131,6 +133,8 @@ if __name__ == "__main__":
     )
     parser.add_argument("-d", "--debug", action="store_true", help="Disable debug logs")
     args = parser.parse_args()
+
+    logger_config()
 
     if args.stdout:
         stdout_handler = logging.StreamHandler()
