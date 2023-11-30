@@ -42,6 +42,8 @@ async def fetch_worker(que):
         try:
             result = await fetch_url(url)
             print(f"URL: {url}    Result: {result}")
+        except Exception:
+            print(f"URL: {url}    Result: Something went wrong")
         finally:
             que.task_done()
 
@@ -57,7 +59,7 @@ async def url_producer(queue, file_path):
 async def main(n_workers, file):
     "Main corutine"
 
-    queue = asyncio.Queue()
+    queue = asyncio.Queue(maxsize=n_workers + 5)
 
     workers = [asyncio.create_task(fetch_worker(queue)) for _ in range(n_workers)]
 
