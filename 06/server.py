@@ -20,7 +20,7 @@ def master(server_address, server_port, num_workers, k):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         server_socket.bind((server_address, server_port))
         server_socket.listen()
-        server_socket.settimeout(10)
+        server_socket.settimeout(3)
         print(
             f"Server listening on {server_address}:{server_port} with {num_workers} workers"
         )
@@ -53,23 +53,30 @@ def worker(k, sockets_queue, lock, total):
 
     while True:
         try:
-            client_socket, _ = sockets_queue.get(timeout=10)
-
-            with client_socket:
-                while True:
-                    url = client_socket.recv(1024).decode("utf-8").strip()
-
-                    if not url:
-                        break
-
-                    response_data = get_top_k(url, k)
-                    client_socket.send(response_data)
-
-                    with lock:
-                        total[0] += 1
-                        print(f"Total requests handled: {total[0]}")
+            client_socket, _ = sockets_queue.get(timeout=3)
         except queue.Empty:
             break
+
+        with client_socket:
+            while True:
+                try:
+                    url = client_socket.recv(1024).decode("utf-8").strip()
+                except OSError:
+                    break
+
+                if not url:
+                    break
+
+                response_data = get_top_k(url, k)
+
+                try:
+                    client_socket.send(response_data)
+                except OSError:
+                    break
+
+                with lock:
+                    total[0] += 1
+                    print(f"Total requests handled: {total[0]}")
 
 
 def get_top_k(url, k):
