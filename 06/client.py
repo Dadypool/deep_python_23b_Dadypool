@@ -9,23 +9,30 @@ def send_request(urls_queue, server_address, server_port):
     "Client thread for sending requests to server and printing response"
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.connect((server_address, server_port))
+        try:
+            client_socket.connect((server_address, server_port))
+        except Exception:
+            print(f"{threading.current_thread().name} can't connect to server")
+            return
 
-        while not urls_queue.empty():
-            url = urls_queue.get(timeout=2)
-            client_socket.send(url.encode("utf-8"))
-            response = client_socket.recv(1024).decode("utf-8")
-            print(f"{threading.current_thread().name} {url}: {response}")
+        while True:
+            try:
+                url = urls_queue.get(timeout=2)
+            except queue.Empty:
+                break
+
+            try:
+                client_socket.send(url.encode("utf-8"))
+                response = client_socket.recv(1024).decode("utf-8")
+                print(f"{threading.current_thread().name} {url}: {response}")
+            except Exception:
+                print(f"{threading.current_thread().name} {url}: Error")
 
 
 def main(num_threads, filename, server_address, server_port):
     "Main function. Puts urls in Queue and starts client_threads"
 
-    urls_queue = queue.Queue()
-
-    with open(filename, "r", encoding="UTF-8") as file:
-        for line in file.read().splitlines():
-            urls_queue.put(line)
+    urls_queue = queue.Queue(maxsize=num_threads + 5)
 
     for i in range(num_threads):
         thread = threading.Thread(
@@ -34,6 +41,15 @@ def main(num_threads, filename, server_address, server_port):
             args=(urls_queue, server_address, server_port),
         )
         thread.start()
+
+    with open(filename, "r", encoding="UTF-8") as file:
+        for line in file.read().splitlines():
+            try:
+                urls_queue.put(line, timeout=5)
+            except queue.Full:
+                print("Queue is full, something went wrong")
+                break
+    urls_queue.put(None)
 
 
 if __name__ == "__main__":
