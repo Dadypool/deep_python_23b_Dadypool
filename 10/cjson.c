@@ -100,7 +100,7 @@ static PyObject *cjson_dumps(PyObject *self, PyObject *args) {
     Py_ssize_t pos = 0;
 
     // Перебираем все элементы словаря
-    while (PyDict_Next(pyDict, &pos, &key, &value, NULL)) {
+    while (PyDict_Next(pyDict, &pos, &key, &value)) {
         // Объединяем JSON-представление ключа
         PyObject *keyStr = PyUnicode_FromFormat("\"%s\": ", PyUnicode_AsUTF8(PyObject_Str(key)));
         PyObject *valueStr = PyObject_Str(value);
