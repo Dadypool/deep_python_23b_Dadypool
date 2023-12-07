@@ -30,7 +30,6 @@ clean:
 	rm -rf dist
 	rm -rf *.egg-info
 
-.PHONY: install
 .PHONY: venv
 .PHONY: setup
 .PHONY: test
